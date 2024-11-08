@@ -155,6 +155,7 @@ body {
 
 .gameBox button {
     z-index: 2;
+    cursor: pointer;
     background: #000;
     box-shadow: -2px -2px 3px #9ffff8, 2px 2px 3px #9ffff8;
     height: 20vmin;
