@@ -28,9 +28,37 @@
         <span style="--i:15"></span>
         <span style="--i:28"></span>
     </div>
-
+    
     <div id="lobby">
-        <div id="lobbies">
+        <div class="turn">
+            <p>SERVER LIST</p>
+        </div>
+        <table id="lobbies-table">
+            <thead>
+                <tr>
+                    <th>Lobby ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="lobbies">
+                <!-- sample data only; should append table in js -->
+                <tr>
+                    <td>1</td>
+                    <td><button>Join</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><button>Join</button></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><button>Join</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="buttons">
+            <button class="buttons">BACK</button>
+            <button class="buttons">RELOAD</button>
         </div>
     </div>
 </body>
