@@ -6,6 +6,6 @@ Chromium can be instructed to trust a self-signed certificate using command-line
 
 The result should be a base64-encoded blob that looks like this: ```Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck=```
 
-3. Pass a flag to Chromium indicating what host and port should be allowed to use the self-signed certificate.  For instance, if the host is localhost, and the port is 4433, the flag would be: ```--origin-to-force-quic-on=localhost:443```
+3. Pass a flag to Chromium indicating what host and port should be allowed to use the self-signed certificate.  For instance, if the host is localhost, and the port is 443, the flag would be: ```--origin-to-force-quic-on=localhost:443```
 
 4. Pass a flag to Chromium indicating which certificate needs to be trusted. For the example above, that flag would be: ```--ignore-certificate-errors-spki-list=Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck=```
