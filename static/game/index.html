@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div id="bubbles">
+        <span style="--i:11"></span>
+        <span style="--i:32"></span>
+        <span style="--i:43"></span>
+        <span style="--i:12"></span>
+        <span style="--i:23"></span>
+        <span style="--i:34"></span>
+        <span style="--i:27"></span>
+        <span style="--i:15"></span>
+        <span style="--i:26"></span>
+        <span style="--i:17"></span>
+        <span style="--i:18"></span>
+        <span style="--i:29"></span>
+        <span style="--i:20"></span>
+        <span style="--i:22"></span>
+        <span style="--i:25"></span>
+        <span style="--i:15"></span>
+        <span style="--i:28"></span>
+    </div>
+
+    <div id="game">
+        <div class="turn">
+            <p>TIC-TAC-TOE</p>
+        </div>
+        <div class="gameBoard">
+            <div class="player">
+                <h1>X</h1>
+                <p>PLAYER 1</p>
+            </div>
+            <section class="gameBox">
+                <button id="1" onclick="click(this)"></button>
+                <button id="2" onclick="click(this)"></button>
+                <button id="3" onclick="click(this)"></button>
+                <button id="4" onclick="click(this)"></button>
+                <button id="5" onclick="click(this)"></button>
+                <button id="6" onclick="click(this)"></button>
+                <button id="7" onclick="click(this)"></button>
+                <button id="8" onclick="click(this)"></button>
+                <button id="9" onclick="click(this)"></button>
+            </section>
+            <div class="player">
+                <h1>O</h1>
+                <p>PLAYER 2</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <button onclick="restart()">RESTART</button>
+            <button onclick="disconnect()">DISCONNECT</button>
+        </div>
+    </div>
+</body>
+
+</html>
