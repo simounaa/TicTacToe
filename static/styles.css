@@ -81,11 +81,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 50px;
+    gap: 20px;
 }
 
 #menu img {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     height: auto;
     object-fit: cover;
 }
@@ -94,32 +95,32 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 50px;
-}
-
-.buttons button {
+    gap: 20px;
     width: 100%;
-    min-width: 350px;
-    padding: 10px;
-    border: 3px solid #00f0ff;
-    text-shadow: 1px 1px #9ffff8;
-    border-radius: 15px;
-    outline: none;
-    cursor: pointer;
-    font-family: "Press Start 2P", system-ui;
-    font-size: 30px;
-    color: #00ffc9;
-    box-shadow: -2px -2px 3px #9ffff8, 2px 2px 3px #9ffff8;
+}
+@media (max-width:600px){.buttons { flex-direction: column; }}
+
+.buttons button{
+    width: auto;
+    min-width: 200px;
+    padding: 10px 20px;
+    border: 2px solid #00f0ff;
     background-color: transparent;
+    color: #00ffc9;
+    font-size: 18px;
+    font-family: "Press Start 2P", sans-serif;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px #18668d;
+    box-shadow: -2px -2px 3px #9ffff8, 2px 2px 3px #9ffff8;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .buttons button:hover {
-    border: 5px solid #00ffc9;
-    box-sizing: border-box;
+    border: 2px solid #00ffc9;
     box-shadow: -5px -5px 15px #00f0ff, 5px 5px 15px #00f0ff;
-    border-radius: 15px;
-    transition-delay: 0.2s;
-    outline-color: rgba(255, 255, 255, 0);
-    outline-offset: 15px;
+    background-color: #0b0615;
+    color: #00ffc9;
     text-shadow: 1px 1px 2px #18668d;
 }
+

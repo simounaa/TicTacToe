@@ -29,12 +29,21 @@
         <span style="--i:28"></span>
     </div>
 
+    <div class="game-start">
+        <div class="xox">
+            <img src="x.png" alt="xox">
+            <img src="o.png" alt="xox">
+            <img src="x.png" alt="xox">
+        </div>
+        <p class="start-message">GAME START!</p>
+    </div>
+
     <div id="game">
         <div class="turn">
             <p>TIC-TAC-TOE</p>
         </div>
         <div class="gameBoard">
-            <div class="player">
+            <div class="player" id="player1">
                 <h1>X</h1>
                 <p>PLAYER 1</p>
             </div>
@@ -49,7 +58,7 @@
                 <button id="8" onclick="click(this)"></button>
                 <button id="9" onclick="click(this)"></button>
             </section>
-            <div class="player">
+            <div class="player" id="player2">
                 <h1>O</h1>
                 <p>PLAYER 2</p>
             </div>
@@ -58,7 +67,64 @@
             <button class="buttons" onclick="restart()">RESTART</button>
             <button class="buttons" onclick="disconnect()">DISCONNECT</button>
         </div>
+        <!-- show win/lose popup sample please remove -->
+        <div class="buttons">
+            <button class="buttons" onclick="showPopup('win')">SHOW WIN POPUP</button>
+            <button class="buttons" onclick="showPopup('lose')">SHOW LOSE POPUP</button>
+        </div>
     </div>
+    <div id="popupWin" class="popup">
+        <div class="popup-content">
+            <div class="xox">
+                <img src="x.png" alt="xox">
+                <img src="o.png" alt="xox">
+                <img src="x.png" alt="xox">
+                <img src="o.png" alt="xox">
+            </div>
+            <h2 id="popupMessage">YOU WIN</h2>
+            <div class="buttons">
+                <button class="buttons" onclick="closePopup()">QUIT</button>
+                <button class="buttons" onclick="restartPopup()">PLAY AGAIN</button>
+            </div>
+        </div>
+    </div>
+    <div id="popupLose" class="popup">
+        <div class="popup-content">
+            <div class="xox">
+                <img src="x.png" alt="xox">
+                <img src="o.png" alt="xox">
+                <img src="x.png" alt="xox">
+                <img src="o.png" alt="xox">
+            </div>
+            <h2 id="popupMessage">YOU LOSE</h2>
+            <div class="buttons">
+                <button class="buttons" onclick="closePopup()">QUIT</button>
+                <button class="buttons" onclick="restartPopup()">PLAY AGAIN</button>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- sample only to check if working -->
+    <script>
+        // For Sample
+        function showPopup(result) {
+            if (result === 'win') {
+                document.getElementById('popupWin').style.display = 'flex'; // Show win popup sample please remove
+            } else if (result === 'lose') {
+                document.getElementById('popupLose').style.display = 'flex'; // Show lose popup
+            }
+        }
+
+        // For Sample Show the game start message when the page is loaded
+        window.onload = function() {
+            const gameStartMessage = document.querySelector('.game-start');
+            gameStartMessage.style.display = 'flex';
+
+            setTimeout(() => {
+                gameStartMessage.style.display = 'none';
+            }, 2500); 
+        };
+    </script>
 </body>
 
 </html>
