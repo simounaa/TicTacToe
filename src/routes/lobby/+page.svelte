@@ -1,5 +1,5 @@
 <script lang="ts">
-    const games = writable([]);
+    import { games } from "$lib";
 
     const back = () => {
         window.location.href = "/";
