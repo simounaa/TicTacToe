@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Press+Start+2P&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(45deg,
+            #000,
+            #2e0f1d,
+            #13040a,
+            #0b0615,
+            #09071d,
+            #2e0f1d,
+            #000);
+    background-size: 300% 300%;
+    animation: color 12s ease-in-out infinite;
+    overflow: hidden;
+}
+
+@keyframes color {
+    0% {
+        background-position: 0 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
