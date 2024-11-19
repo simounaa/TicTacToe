@@ -10,6 +10,12 @@ cd tictactoe
 npm install
 ```
 
+## Development
+
+```bash
+npm run dev
+```
+
 ## Usage
 
 ```bash
