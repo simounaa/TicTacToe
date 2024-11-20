@@ -1,6 +1,11 @@
 <script lang="ts">
+    import { socket } from "$lib";
+    import { page } from "$app/stores";
+
     import x from "$lib/assets/x.png";
     import o from "$lib/assets/o.png";
+
+    socket.emit("join", $page.params.id);
 
     let {
         gameStartMessage = $bindable(),
@@ -8,8 +13,13 @@
         popupLose = $bindable(),
     } = $props();
 
-    let board = $state([" ", " ", " ", " ", " ", " ", " ", " ", " "]);
     let turn = $state("X");
+    let board = $state([" ", " ", " ", " ", " ", " ", " ", " ", " "]);
+
+    socket.on("update", (game) => {
+        board = game.board;
+        turn = game.turn;
+    });
 
     const toggleTurn = () => (turn = turn === "X" ? "O" : "X");
 

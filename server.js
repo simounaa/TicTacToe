@@ -1,28 +1,31 @@
 import { Server } from 'socket.io';
+import { randomInt } from 'crypto';
 
 const games = new Map();
 
 export function websocketServer(server) {
-    const io = new Server(server, {
-        transports: ['polling', 'websocket', 'webtransport']
-    });
+    const io = new Server(server, { transports: ['polling', 'websocket', 'webtransport'] });
 
     io.on('connection', (socket) => {
-        socket.conn.on("upgrade", (transport) => {
-            console.log(`transport upgraded to ${transport.name}`);
-        });
-
-        socket.on("disconnect", (reason) => {
-            console.log(`disconnected due to ${reason}`);
-        });
-
         socket.on('create', () => {
-            socket.emit('id', () => {
-                games.set(socket.id, { id: socket.id, players: [] });
-                socket.emit('id', socket.id);
-            });
+            const id = String(randomInt(100000, 999999));
+            games.set(id, { turn: "X", board: [" ", " ", " ", " ", " ", " ", " ", " ", " "] });
+            socket.emit('id', id);
+            io.emit('new-game', id);
         });
-    })
+
+        socket.on('get-games', () => socket.emit('games', Array.from(games.keys())));
+
+        socket.on('join', (id) => socket.join(id));
+
+        socket.on('move', (id, index) => {
+            const game = games.get(id);
+            if (game.turn === "X") game.board[index] = "X";
+            else game.board[index] = "O";
+            game.turn = game.turn === "X" ? "O" : "X";
+            io.to(id).emit('update', game);
+        });
+    });
 
     return io
 }

@@ -1,5 +1,22 @@
 <script lang="ts">
-    import { games } from "$lib";
+    import { goto } from "$app/navigation";
+    import { socket } from "$lib";
+    import { onMount } from "svelte";
+    import { writable } from "svelte/store";
+
+    const gameIDs = writable<string[]>();
+
+    onMount(() => {
+        socket.emit("get-games");
+
+        socket.on("games", (games) => {
+            $gameIDs = games;
+        });
+
+        socket.on("new-game", (id) => {
+            $gameIDs = [...$gameIDs, id];
+        });
+    });
 
     const back = () => {
         window.location.href = "/";
@@ -10,10 +27,10 @@
     };
 </script>
 
-{#snippet lobby(id: string)}
+{#snippet lobby(id: number)}
     <tr>
         <td>{id}</td>
-        <td><button>Join</button></td>
+        <td><button onclick={() => goto(`/game/${id}`)}>Join</button></td>
     </tr>
 {/snippet}
 
@@ -29,8 +46,8 @@
             </tr>
         </thead>
         <tbody id="lobbies">
-            {#each $games as game}
-                {@render lobby(game.id)}
+            {#each $gameIDs as gameID}
+                {@render lobby(gameID)}
             {/each}
         </tbody>
     </table>

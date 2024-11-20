@@ -1,14 +1,11 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { socket } from "$lib";
     import background from "$lib/assets/background.png";
 
     const start = async () => {
         socket.emit("create");
-
-        socket.on("id", (id) => {
-            socket.disconnect();
-            window.location.href = `/game/${id}`;
-        });
+        socket.on("id", (id) => goto(`/game/${id}`));
     };
 
     const connect = async () => {
