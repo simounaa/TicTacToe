@@ -1,4 +1,6 @@
 <script lang="ts">
+    import Popup from "./popup.svelte";
+
     import { socket } from "$lib";
     import { page } from "$app/stores";
 
@@ -42,13 +44,17 @@
                 board[a] === board[c] &&
                 board[a] === turn
             ) {
-                popupWin.style.display = "flex";
+                if (turn === "X") popupWin.showPopup();
+                else popupLose.showPopup();
+                return;
             }
         }
     };
 
     const click = (e: MouseEvent) => {
-        const id = Number((e.target as HTMLButtonElement).id);
+        const target = e.target as HTMLButtonElement;
+        const id = Number(target.id);
+        target.disabled = true;
         board[id] = turn;
         checkWin();
         toggleTurn();
@@ -67,11 +73,6 @@
         popupWin.style.display = "none";
         popupLose.style.display = "none";
         window.location.href = "/";
-    };
-
-    const close = () => {
-        popupWin.style.display = "none";
-        popupLose.style.display = "none";
     };
 
     $effect(() => {
@@ -122,36 +123,9 @@
         <button class="buttons" onclick={disconnect}>DISCONNECT</button>
     </div>
 </div>
-<div id="popupWin" class="popup" bind:this={popupWin}>
-    <div class="popup-content">
-        <div class="xox">
-            <img src={x} alt="xox" />
-            <img src={o} alt="xox" />
-            <img src={x} alt="xox" />
-            <img src={o} alt="xox" />
-        </div>
-        <h2 id="popupMessage">YOU WIN</h2>
-        <div class="buttons">
-            <button class="buttons" onclick={close}>QUIT</button>
-            <button class="buttons" onclick={restart}>PLAY AGAIN</button>
-        </div>
-    </div>
-</div>
-<div id="popupLose" class="popup" bind:this={popupLose}>
-    <div class="popup-content">
-        <div class="xox">
-            <img src={x} alt="xox" />
-            <img src={o} alt="xox" />
-            <img src={x} alt="xox" />
-            <img src={o} alt="xox" />
-        </div>
-        <h2 id="popupMessage">YOU LOSE</h2>
-        <div class="buttons">
-            <button class="buttons" onclick={close}>QUIT</button>
-            <button class="buttons" onclick={restart}>PLAY AGAIN</button>
-        </div>
-    </div>
-</div>
+
+<Popup message="YOU WIN" bind:this={popupWin} {restart} />
+<Popup message="YOU LOSE" bind:this={popupLose} {restart} />
 
 <style>
     #game {
@@ -162,6 +136,19 @@
         align-items: center;
         justify-content: center;
         gap: 2vmin;
+    }
+
+    .xox {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .xox img {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+        animation: popup 0.5s ease-out forwards;
     }
 
     .turn {
@@ -275,7 +262,6 @@
         text-overflow: ellipsis;
     }
 
-    /* trigger when players turn */
     .glow {
         animation: glowing 1.5s ease-in-out infinite;
     }
@@ -335,141 +321,6 @@
         color: #00ffc9;
         animation: reveal 2s ease-out forwards;
         opacity: 0;
-    }
-
-    /* WIN LOSE POPUP */
-    .popup {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.7);
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
-
-    .popup-content {
-        background: linear-gradient(
-            45deg,
-            #000,
-            #2e0f1d,
-            #13040a,
-            #0b0615,
-            #09071d,
-            #2e0f1d,
-            #000
-        );
-        padding: 30px;
-        border-radius: 10px;
-        text-align: center;
-        width: 100%;
-        max-width: 800px;
-        animation: shake 0.5s ease-in-out;
-    }
-
-    .xox {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-    .xox img {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 20px;
-        animation: popup 0.5s ease-out forwards;
-    }
-
-    .popup h2 {
-        font-family: "Press Start 2P", system-ui;
-        font-size: 60px;
-        color: #00ffc9;
-        margin-bottom: 20px;
-        overflow: hidden;
-        white-space: nowrap;
-        width: 0;
-        border-right: 2px solid #00ffc9;
-        animation: typing 3s steps(40) 1s forwards;
-    }
-
-    .popup .buttons {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .popup .buttons button {
-        background-color: transparent;
-        color: #00ffc9;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: 2px solid #00f0ff;
-        cursor: pointer;
-        border-radius: 8px;
-    }
-
-    .popup .buttons button:hover {
-        background-color: #0b0615;
-        box-shadow:
-            -5px -5px 15px #00f0ff,
-            5px 5px 15px #00f0ff;
-        animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
-            transform: translateY(0);
-        }
-        40% {
-            transform: translateY(-10px);
-        }
-        60% {
-            transform: translateY(-5px);
-        }
-    }
-
-    @keyframes shake {
-        0% {
-            transform: translateX(0);
-        }
-        25% {
-            transform: translateX(-20px);
-        }
-        50% {
-            transform: translateX(20px);
-        }
-        75% {
-            transform: translateX(-20px);
-        }
-        100% {
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes popup {
-        0% {
-            opacity: 0;
-            transform: translate(100%, 100%) rotate(720deg);
-        }
-        100% {
-            opacity: 1;
-            transform: translate(0, 0) rotate(0deg);
-        }
-    }
-
-    @keyframes typing {
-        0% {
-            width: 0;
-        }
-        100% {
-            width: 100%;
-        }
     }
 
     @keyframes reveal {
