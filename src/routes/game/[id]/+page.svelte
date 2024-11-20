@@ -11,60 +11,59 @@
 
     let {
         gameStartMessage = $bindable(),
+        gameWaitMessage = $bindable(),
         popupWin = $bindable(),
         popupLose = $bindable(),
+        popupDraw = $bindable(),
     } = $props();
 
     let turn = $state("X");
+    let player = $state("O");
     let board = $state([" ", " ", " ", " ", " ", " ", " ", " ", " "]);
 
-    socket.on("update", (game) => {
-        board = game.board;
-        turn = game.turn;
+    socket.on("player", (p) => {
+        player = p;
     });
 
-    const toggleTurn = () => (turn = turn === "X" ? "O" : "X");
+    socket.on("update", (game) => {
+        turn = game.turn;
+        board = game.board;
 
-    const checkWin = () => {
-        const win = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6],
-        ];
-
-        for (let i = 0; i < win.length; i++) {
-            const [a, b, c] = win[i];
-            if (
-                board[a] === board[b] &&
-                board[a] === board[c] &&
-                board[a] === turn
-            ) {
-                if (turn === "X") popupWin.showPopup();
-                else popupLose.showPopup();
-                return;
+        for (let i = 0; i < board.length; i++)
+            if (board[i] !== " ") {
+                const button = document.getElementById(String(i));
+                (button as HTMLButtonElement).disabled = player !== turn;
             }
+
+        if (!game.start && game.players.length < 2)
+            gameWaitMessage.style.display = "flex";
+        else {
+            gameWaitMessage.style.display = "none";
+            gameStartMessage.style.display = "flex";
+
+            setTimeout(() => {
+                gameStartMessage.style.display = "none";
+            }, 2500);
         }
-    };
+    });
+
+    socket.on("winner", (winner) => {
+        if (winner === player) popupWin.showPopup();
+        else popupLose.showPopup();
+    });
+
+    socket.on("draw", () => popupDraw.showPopup());
 
     const click = (e: MouseEvent) => {
         const target = e.target as HTMLButtonElement;
         const id = Number(target.id);
-        target.disabled = true;
-        board[id] = turn;
-        checkWin();
-        toggleTurn();
+
+        socket.emit("move", $page.params.id, id);
     };
 
     const restart = () => {
         board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
         turn = "X";
-        popupWin.style.display = "none";
-        popupLose.style.display = "none";
     };
 
     const disconnect = () => {
@@ -74,24 +73,7 @@
         popupLose.style.display = "none";
         window.location.href = "/";
     };
-
-    $effect(() => {
-        gameStartMessage.style.display = "flex";
-
-        setTimeout(() => {
-            gameStartMessage.style.display = "none";
-        }, 2500);
-    });
 </script>
-
-<div class="game-start" bind:this={gameStartMessage}>
-    <div class="xox">
-        <img src={x} alt="xox" />
-        <img src={o} alt="xox" />
-        <img src={x} alt="xox" />
-    </div>
-    <p class="start-message">GAME START!</p>
-</div>
 
 <div id="game">
     <div class="turn">
@@ -126,6 +108,25 @@
 
 <Popup message="YOU WIN" bind:this={popupWin} {restart} />
 <Popup message="YOU LOSE" bind:this={popupLose} {restart} />
+<Popup message="DRAW" bind:this={popupDraw} {restart} />
+
+<div class="game-start" bind:this={gameStartMessage}>
+    <div class="xox">
+        <img src={x} alt="xox" />
+        <img src={o} alt="xox" />
+        <img src={x} alt="xox" />
+    </div>
+    <p class="start-message">GAME START! YOU ARE {player}!</p>
+</div>
+
+<div class="game-start" bind:this={gameWaitMessage}>
+    <div class="xox">
+        <img src={x} alt="xox" />
+        <img src={o} alt="xox" />
+        <img src={x} alt="xox" />
+    </div>
+    <p class="start-message">WAITING FOR PLAYERS...</p>
+</div>
 
 <style>
     #game {
