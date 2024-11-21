@@ -164,26 +164,28 @@
     }
 
     .turn p {
+        width: auto;
+        text-align: center;
         position: relative;
         font-family: "Press Start 2P", system-ui;
         font-size: 18px;
         background-color: transparent;
         color: #00ffc9;
         text-shadow: 1px 1px #9ffff8;
-        animation: pass 15s linear infinite;
+        animation: pass 4s linear infinite;
     }
 
     @keyframes pass {
         0% {
-            transform: translateX(0vh);
+            transform: translateX(-4vh);
         }
 
         50% {
-            transform: translateX(10vh);
+            transform: translateX(4vh);
         }
 
         100% {
-            transform: translateX(-10vh);
+            transform: translateX(-4vh);
         }
     }
 
@@ -305,6 +307,12 @@
         text-shadow: 1px 1px 2px #18668d;
     }
 
+    @media (max-width: 600px) {
+        .buttons {
+            flex-direction: column;
+        }
+    }
+
     /* GAME START ONLOAD */
     .game-start {
         position: fixed;
@@ -313,7 +321,6 @@
         width: 100%;
         height: 100vh;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         background-color: rgba(0, 0, 0, 0.907);
@@ -336,15 +343,17 @@
     }
 
     .xox img {
-        width: 120px;
-        height: 120px;
+        display: flex;
+        width: 100%;
+        height: auto;
+        max-width: 120px;
         margin-bottom: 20px;
         animation: popup 0.5s ease-out forwards;
     }
 
     .start-message {
         font-family: "Press Start 2P", system-ui;
-        font-size: 40px;
+        font-size: 50px;
         color: #00ffc9;
         animation: reveal 2s ease-out forwards;
         opacity: 0;
