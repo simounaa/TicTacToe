@@ -20,6 +20,7 @@
     let turn = $state("X");
     let player = $state("O");
     let board = $state([" ", " ", " ", " ", " ", " ", " ", " ", " "]);
+    let gameStartMessageShown = $state(false);
 
     socket.on("player", (p) => {
         player = p;
@@ -29,21 +30,26 @@
         turn = game.turn;
         board = game.board;
 
-        for (let i = 0; i < board.length; i++)
-            if (board[i] !== " ") {
-                const button = document.getElementById(String(i));
+        for (let i = 0; i < board.length; i++) {
+            const button = document.getElementById(String(i));
+            if (board[i] === " ")
                 (button as HTMLButtonElement).disabled = player !== turn;
-            }
+            else (button as HTMLButtonElement).disabled = true;
+        }
 
         if (!game.start && game.players.length < 2)
             gameWaitMessage.style.display = "flex";
         else {
-            gameWaitMessage.style.display = "none";
-            gameStartMessage.style.display = "flex";
+            if (!gameStartMessageShown) {
+                gameStartMessageShown = true;
 
-            setTimeout(() => {
-                gameStartMessage.style.display = "none";
-            }, 2500);
+                gameWaitMessage.style.display = "none";
+                gameStartMessage.style.display = "flex";
+
+                setTimeout(() => {
+                    gameStartMessage.style.display = "none";
+                }, 2500);
+            }
         }
     });
 
