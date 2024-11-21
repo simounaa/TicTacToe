@@ -117,21 +117,25 @@
 <Popup message="DRAW" bind:this={popupDraw} {restart} />
 
 <div class="game-start" bind:this={gameStartMessage}>
-    <div class="xox">
-        <img src={x} alt="xox" />
-        <img src={o} alt="xox" />
-        <img src={x} alt="xox" />
+    <div class="game-start-container">
+        <div class="xox">
+            <img src={x} alt="xox" />
+            <img src={o} alt="xox" />
+            <img src={x} alt="xox" />
+        </div>
+        <p class="start-message">GAME START! YOU ARE {player}!</p>
     </div>
-    <p class="start-message">GAME START! YOU ARE {player}!</p>
 </div>
 
 <div class="game-start" bind:this={gameWaitMessage}>
-    <div class="xox">
-        <img src={x} alt="xox" />
-        <img src={o} alt="xox" />
-        <img src={x} alt="xox" />
+    <div class="game-start-container">
+        <div class="xox">
+            <img src={x} alt="xox" />
+            <img src={o} alt="xox" />
+            <img src={x} alt="xox" />
+        </div>
+        <p class="start-message">WAITING FOR PLAYERS...</p>
     </div>
-    <p class="start-message">WAITING FOR PLAYERS...</p>
 </div>
 
 <style>
@@ -143,19 +147,6 @@
         align-items: center;
         justify-content: center;
         gap: 2vmin;
-    }
-
-    .xox {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .xox img {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 20px;
-        animation: popup 0.5s ease-out forwards;
     }
 
     .turn {
@@ -227,8 +218,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 2vmin;
+        gap: 2.5vmin;
         width: 100%;
+    }
+    @media (max-width: 600px) {
+        .gameBox {
+            width: 60%;
+        }
+        .gameBox button {
+            width: auto;
+        }
     }
 
     .player {
@@ -322,6 +321,27 @@
         display: none;
     }
 
+    .game-start-container {
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .xox {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .xox img {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+        animation: popup 0.5s ease-out forwards;
+    }
+
     .start-message {
         font-family: "Press Start 2P", system-ui;
         font-size: 40px;
@@ -360,6 +380,17 @@
             box-shadow:
                 0 0 5px #f306cb,
                 0 0 10px #f306cb;
+        }
+    }
+
+    @keyframes popup {
+        0% {
+            opacity: 0;
+            transform: translate(100%, 100%) rotate(720deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translate(0, 0) rotate(0deg);
         }
     }
 </style>
