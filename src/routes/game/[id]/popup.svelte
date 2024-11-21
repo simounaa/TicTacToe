@@ -38,29 +38,32 @@
 </div>
 
 <style>
-    .xox {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-    .xox img {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 20px;
-        animation: popup 0.5s ease-out forwards;
-    }
 
     .popup {
         display: none;
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         background-color: rgba(0, 0, 0, 0.7);
         justify-content: center;
         align-items: center;
         z-index: 9999;
+    }
+
+    .xox {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    .xox img {
+        display: flex;
+        width: 100%;
+        height: auto;
+        max-width: 100px;
+        margin-bottom: 20px;
+        animation: popup 0.5s ease-out forwards;
     }
 
     .popup-content {
@@ -87,7 +90,7 @@
 
     .popup h2 {
         font-family: "Press Start 2P", system-ui;
-        font-size: 60px;
+        font-size: 50px;
         color: #00ffc9;
         margin-bottom: 20px;
         overflow: hidden;
@@ -97,23 +100,46 @@
         animation: typing 3s steps(40) 1s forwards;
     }
 
-    .popup .buttons {
+    .buttons {
         display: flex;
         justify-content: center;
+        align-items: center;
         gap: 10px;
     }
 
-    .popup .buttons button {
+    @media (max-width: 600px) {
+        .popup-content {
+            width: 80%;
+        }
+        .popup h2{
+            font-size: 30px;
+        }
+        .xox {
+            gap: 5px;
+        }
+        .xox img {
+            width: 60px;
+        }
+        .buttons {
+            flex-direction: column;
+        }
+    }
+
+    .buttons button {
+        width: auto;
+        min-width: 200px;
+        padding: 10px 20px;
+        border: 2px solid #00f0ff;
         background-color: transparent;
         color: #00ffc9;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: 2px solid #00f0ff;
+        font-size: 18px;
+        font-family: "Press Start 2P", sans-serif;
         cursor: pointer;
+        text-shadow: 1px 1px 2px #18668d;
         border-radius: 8px;
     }
 
-    .popup .buttons button:hover {
+    .buttons button:hover {
         background-color: #0b0615;
         box-shadow:
             -5px -5px 15px #00f0ff,
