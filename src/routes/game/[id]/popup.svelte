@@ -74,6 +74,9 @@
             #2e0f1d,
             #000
         );
+        box-shadow:
+            -2px -2px 3px #f306cb,
+            2px 2px 3px #05f0e0;
         padding: 30px;
         border-radius: 10px;
         text-align: center;
