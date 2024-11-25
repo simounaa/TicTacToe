@@ -47,12 +47,7 @@
         </div>
 
         <label for="lobbies">Room ID:</label>
-        <select id="lobbies" name="p-id">
-            <option value="">Select a Room</option>
-            {#each $gameIDs as gameID}
-                <option value={gameID}>{gameID}</option>
-            {/each}
-        </select>
+        <input type="text" id="player-id" name="p-id"><br><br>
         
         <br><br>
 
@@ -112,7 +107,7 @@
         max-width: 500px;
     }
 
-    select, [type="text"] {
+    [type="text"] {
         width: 100%;
         max-width: 300px;
         padding: 12px 20px;
@@ -129,7 +124,7 @@
         transition: all 0.3s ease;
     }
 
-    select:focus, [type="text"]:focus {
+    [type="text"]:focus {
         border: 2px solid #00ffc9;
         box-shadow: 0 0 15px #00ffc9;
         background-color: #0b0615;
@@ -181,7 +176,7 @@
         .lobby-content {
             width: 80%;
         }
-        select, [type="text"],  select:focus, [type="text"]:focus{
+        [type="text"], [type="text"]:focus{
             font-size: 16px;
         }
         .xox {
