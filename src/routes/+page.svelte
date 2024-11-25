@@ -17,7 +17,6 @@
     };
 
     let localAudio: HTMLAudioElement | null = null;
-        localAudio.volume = 0.5;
 
     // Toggle background music
     const toggleMusic = () => {
@@ -65,8 +64,6 @@
     <div class="buttons">
         <button onclick={start}>START</button>
         <button onclick={connect}>CONNECT</button>
-        <!-- Music Toggle Button -->
-        <button onclick={toggleMusic}>{$isPlaying ? "PAUSE MUSIC" : "PLAY MUSIC"}</button>
     </div>
 </div>
 
