@@ -1,11 +1,11 @@
 <script lang="ts">
     import Popup from "./popup.svelte";
-
     import { socket } from "$lib";
     import { page } from "$app/stores";
 
     import x from "$lib/assets/x.png";
     import o from "$lib/assets/o.png";
+    import clickSound from "$lib/assets/clicksound.wav"; // Import click sound
 
     socket.emit("join", $page.params.id);
 
@@ -64,7 +64,16 @@
         const target = e.target as HTMLButtonElement;
         const id = Number(target.id);
 
+        // Play the click sound when a button is clicked
+        playClickSound();
+
         socket.emit("move", $page.params.id, id);
+    };
+
+    const playClickSound = () => {
+        const audio = new Audio(clickSound); // Create new audio element
+        audio.volume = 0.5; // Adjust volume
+        audio.play().catch((err) => console.log("Error playing click sound:", err));
     };
 
     const restart = () => {
