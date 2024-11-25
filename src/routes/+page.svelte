@@ -1,16 +1,63 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { socket } from "$lib";
+    import { audio, isPlaying } from "$lib/audioStore"; // Import global audio state
+    import { onMount } from "svelte";
     import background from "$lib/assets/background.png";
+    import bgMusic from "$lib/assets/Searching for a Body.mp3"; // Path to your audio file
+    
 
     const start = async () => {
         socket.emit("create");
-        socket.on("id", (id) => goto(`/game/${id}`));
+        socket.on("id", (id: string) => goto(`/game/${id}`));
     };
 
     const connect = async () => {
-        window.location.href = "/lobby";
+        goto("/lobby");
     };
+
+    let localAudio: HTMLAudioElement | null = null;
+        localAudio.volume = 0.5;
+
+    // Toggle background music
+    const toggleMusic = () => {
+        if (localAudio) {
+            isPlaying.update((playing) => {
+                if (playing) {
+                    localAudio.pause();
+                } else {
+                    localAudio.play().catch((err) =>
+                        console.log("User interaction needed to play audio:", err)
+                    );
+                }
+                return !playing;
+            });
+        }
+    };
+
+    onMount(() => {
+
+        audio.subscribe((sharedAudio) => {
+            if (!sharedAudio) {
+                // If no audio exists in the store, create one
+                localAudio = new Audio(bgMusic);
+                localAudio.loop = true;
+                localAudio.volume = 1.0;
+
+                // Set the audio in the store for global access
+                audio.set(localAudio);
+
+                // Play audio and mark as playing
+                localAudio
+                    .play()
+                    .then(() => isPlaying.set(true))
+                    .catch((err) => console.log("User interaction needed to play audio:", err));
+            } else {
+                // Use the existing audio object
+                localAudio = sharedAudio;
+            }
+        });
+    });
 </script>
 
 <div class="menu">
@@ -18,6 +65,8 @@
     <div class="buttons">
         <button onclick={start}>START</button>
         <button onclick={connect}>CONNECT</button>
+        <!-- Music Toggle Button -->
+        <button onclick={toggleMusic}>{$isPlaying ? "PAUSE MUSIC" : "PLAY MUSIC"}</button>
     </div>
 </div>
 
