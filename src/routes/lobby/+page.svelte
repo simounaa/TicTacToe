@@ -48,9 +48,6 @@
 
         <label for="lobbies">Room ID:</label>
         <input type="text" id="player-id" name="p-id"><br><br>
-        
-        <br><br>
-
         <label for="name">Player Name:</label>
         <input type="text" id="player-name" name="name"><br><br>
 
