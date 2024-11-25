@@ -1,6 +1,8 @@
 <script lang="ts">
     import x from "$lib/assets/x.png";
     import o from "$lib/assets/o.png";
+    import { audio, isPlaying } from "$lib/audioStore"; // Import global audio state
+    import popupMusic from "$lib/assets/Game Over sound effect.mp3"; // Path to your music file
 
     let {
         message,
@@ -11,6 +13,41 @@
 
     export const showPopup = () => {
         popup.style.display = "flex";
+        stopGlobalAudio();  // Pause global audio before playing the popup music
+        playMusic();        // Play music when the popup is shown
+    };
+
+    let audioElement: HTMLAudioElement | null = null;
+
+    const playMusic = () => {
+        if (!audioElement) {
+            audioElement = new Audio(popupMusic);
+            audioElement.volume = 0.5; // Set volume (0.0 - 1.0)
+            audioElement.play().catch((err) => console.log("Error playing popup music:", err));
+        } else {
+            audioElement.play().catch((err) => console.log("Error playing popup music:", err));
+        }
+    };
+
+    const stopMusic = () => {
+        if (audioElement) {
+            audioElement.pause();
+            audioElement.currentTime = 0; // Reset music to the beginning
+        }
+    };
+
+    const stopGlobalAudio = () => {
+        // Pause and reset the global audio (if it's playing)
+        audio.subscribe((sharedAudio) => {
+            sharedAudio.pause();
+            sharedAudio.currentTime = 0;  // Reset global audio to start
+        });
+    };
+
+    const handleClose = () => {
+        popup.style.display = "none";
+        stopMusic(); // Stop music when the popup is closed
+        close();
     };
 </script>
 
